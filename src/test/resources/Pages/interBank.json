@@ -1,0 +1,19 @@
+{
+  "JWTBox": {
+    "GetFieldBy": "Xpath",
+    "ValueToFind": "//input[@id='jwt']"
+  },
+
+  "SKBox": {
+    "GetFieldBy": "Css",
+    "ValueToFind": "#subscriptionKey"
+  },
+
+
+  "MontoBox": {
+    "GetFieldBy": "Css",
+    "ValueToFind": "input[id=amount]"
+  }
+
+
+}
