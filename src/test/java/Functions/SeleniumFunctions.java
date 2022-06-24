@@ -9,17 +9,15 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.junit.Assert;
 import org.openqa.selenium.*;
+import com.github.javafaker.Faker;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 
 public class SeleniumFunctions {
@@ -27,6 +25,9 @@ public class SeleniumFunctions {
     public static Properties prop = new Properties();
     public static InputStream in = SeleniumFunctions.class.getResourceAsStream("../test.properties");
     public static Map<String, String> ScenaryData = new HashMap<>();
+    static Faker faker = new Faker(new Locale("es-MX"));
+
+
 
     public SeleniumFunctions() {
         driver = Hooks.driver;
@@ -95,11 +96,11 @@ public class SeleniumFunctions {
         FileUtils.copyFile(scrFile, new File(String.format("%s.png", screenShotName)));
     }
 
-    public byte[] attachScreenShot(){
+    public byte[] attachScreenShot(String TestCaptura){
 
         log.info("Attaching Screenshot");
         byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-        Allure.addAttachment("Screenshot", new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
+        Allure.addAttachment(TestCaptura, new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
         return screenshot;
 
     }
@@ -115,7 +116,7 @@ public class SeleniumFunctions {
             isDisplayed = false;
             log.info(e);
         }
-        log.info(String.format("%s visibility is: %s", element, isDisplayed));
+        log.info(String.format("%s la visibilidad es: %s", element, isDisplayed));
         return isDisplayed;
     }
 
@@ -125,9 +126,9 @@ public class SeleniumFunctions {
             WebDriverWait wait = new WebDriverWait(driver, EXPLICIT_TIMEOUT);
             Alert alert = wait.until(ExpectedConditions.alertIsPresent());
             alert.accept();
-            log.info("The alert was accepted successfully.");
+            log.info("La alerta fue aceptada con éxito.");
         }catch(Throwable e){
-            log.error("Error came while waiting for the alert popup. "+e.getMessage());
+            log.error("Se produjo un error mientras esperaba la ventana emergente de alerta. "+e.getMessage());
         }
     }
 
@@ -137,9 +138,9 @@ public class SeleniumFunctions {
             WebDriverWait wait = new WebDriverWait(driver, EXPLICIT_TIMEOUT);
             Alert alert = wait.until(ExpectedConditions.alertIsPresent());
             alert.dismiss();
-            log.info("The alert was dismissed successfully.");
+            log.info("La alerta fue aceptada con éxito.");
         }catch(Throwable e){
-            log.error("Error came while waiting for the alert popup. "+e.getMessage());
+            log.error("Se produjo un error mientras esperaba la ventana emergente de alerta. "+e.getMessage());
         }
     }
 
@@ -173,30 +174,30 @@ public class SeleniumFunctions {
     public void selectOptionDropdownByIndex(String element, int option) throws Exception
     {
         By SeleniumElement = SeleniumFunctions.getCompleteElement(element);
-        log.info(String.format("Waiting Element: %s", element));
+        log.info(String.format("Elemento de espera: %s", element));
 
         Select opt = new Select(driver.findElement(SeleniumElement));
-        log.info("Select option: " + option + "by text");
+        log.info("Seleccionar opción: " + option + "por texto");
         opt.selectByIndex(option);
     }
 
     public void selectOptionDropdownByText(String element, String option) throws Exception
     {
         By SeleniumElement = SeleniumFunctions.getCompleteElement(element);
-        log.info(String.format("Waiting Element: %s", element));
+        log.info(String.format("Elemento de espera: %s", element));
 
         Select opt = new Select(driver.findElement(SeleniumElement));
-        log.info("Select option: " + option + "by text");
+        log.info("Seleccionar opción: " + option + "por texto");
         opt.selectByVisibleText(option);
     }
 
     public void selectOptionDropdownByValue(String element, String option) throws Exception
     {
         By SeleniumElement = SeleniumFunctions.getCompleteElement(element);
-        log.info(String.format("Waiting Element: %s", element));
+        log.info(String.format("Elemento de espera: %s", element));
 
         Select opt = new Select(driver.findElement(SeleniumElement));
-        log.info("Select option: " + option + "by text");
+        log.info("Seleccionar opción: " + option + "por texto");
         opt.selectByValue(option);
     }
 
@@ -205,7 +206,7 @@ public class SeleniumFunctions {
         By SeleniumElement = SeleniumFunctions.getCompleteElement(element);
         boolean isChecked = driver.findElement(SeleniumElement).isSelected();
         if(!isChecked){
-            log.info("Clicking on the checkbox to select: " + element);
+            log.info("Al hacer clic en la casilla de verificación para seleccionar: " + element);
             driver.findElement(SeleniumElement).click();
         }
     }
@@ -215,7 +216,7 @@ public class SeleniumFunctions {
         By SeleniumElement = SeleniumFunctions.getCompleteElement(element);
         boolean isChecked = driver.findElement(SeleniumElement).isSelected();
         if(isChecked){
-            log.info("Clicking on the checkbox to select: " + element);
+            log.info("Al hacer clic en la casilla de verificación para seleccionar: " + element);
             driver.findElement(SeleniumElement).click();
         }
     }
@@ -224,7 +225,7 @@ public class SeleniumFunctions {
     {
         By SeleniumElement = SeleniumFunctions.getCompleteElement(element);
         JavascriptExecutor jse = (JavascriptExecutor)driver;
-        log.info("Scrolling to element: " + element);
+        log.info("Desplazamiento al elemento: " + element);
         jse.executeScript("arguments[0].scrollIntoView();", driver.findElement(SeleniumElement));
 
     }
@@ -233,7 +234,7 @@ public class SeleniumFunctions {
     {
         By SeleniumElement = SeleniumFunctions.getCompleteElement(element);
         JavascriptExecutor jse = (JavascriptExecutor)driver;
-        log.info("Scrolling to element: " + element);
+        log.info("Desplazamiento al elemento: " + element);
         jse.executeScript("arguments[0].click()", driver.findElement(SeleniumElement));
 
     }
@@ -243,7 +244,7 @@ public class SeleniumFunctions {
         ElementText = GetTextElement(element);
 
         boolean isFoundFalse = ElementText.indexOf(text) !=-1? true: false;
-        Assert.assertFalse("Text is present in element: " + element + " current text is: " + ElementText, isFoundFalse);
+        Assert.assertFalse("El texto está presente en el elemento: " + element + " el texto actual es: " + ElementText, isFoundFalse);
 
     }
 
@@ -253,7 +254,7 @@ public class SeleniumFunctions {
 
         boolean isFound = ElementText.indexOf(text) !=-1? true: false;
 
-        Assert.assertTrue("Text is not present in element: " + element + " current text is: " + ElementText, isFound);
+        Assert.assertTrue("El texto no está presente en el elemento: " + element + " el texto actual es: " + ElementText, isFound);
 
     }
 
@@ -272,7 +273,7 @@ public class SeleniumFunctions {
     public void iSetElementWithText(String element, String text) throws Exception {
         By SeleniumElement = SeleniumFunctions.getCompleteElement(element);
         driver.findElement(SeleniumElement).sendKeys(text);
-        log.info(String.format("Set on element %s with text %s", element, text));
+        log.info(String.format("Establecer en el elemento %s con texto %s", element, text));
     }
 
     public void iSetElementWithKeyValue(String element, String key) throws Exception {
@@ -281,9 +282,9 @@ public class SeleniumFunctions {
         if (exist){
             String text = this.ScenaryData.get(key);
             driver.findElement(SeleniumElement).sendKeys(text);
-            log.info(String.format("Set on element %s with text %s", element, text));
+            log.info(String.format("Establecer en el elemento %s con texto %s", element, text));
         }else{
-            Assert.assertTrue(String.format("The given key %s do not exist in Context", key), this.ScenaryData.containsKey(key));
+            Assert.assertTrue(String.format(" La clave dada %s no existe en Contexto", key), this.ScenaryData.containsKey(key));
         }
 
     }
@@ -293,13 +294,13 @@ public class SeleniumFunctions {
         Actions action = new Actions(driver);
         By SeleniumElement = SeleniumFunctions.getCompleteElement(element);
         action.moveToElement(driver.findElement(SeleniumElement)).doubleClick().perform();
-        log.info("Double click on element: " + element);
+        log.info("Haga doble clic en el elemento: " + element);
     }
 
     public void iClicInElement(String element) throws Exception {
         By SeleniumElement = SeleniumFunctions.getCompleteElement(element);
         driver.findElement(SeleniumElement).click();
-        log.info("Click on element by " + element);
+        log.info("Haga clic en el elemento por " + element);
 
     }
 
@@ -307,12 +308,12 @@ public class SeleniumFunctions {
     {
         JavascriptExecutor jse = (JavascriptExecutor)driver;
         if(to.equals("top")){
-            log.info("Scrolling to the top of the page");
+            log.info("Desplazarse a la parte superior de la página");
             jse.executeScript("scroll(0, -250);");
 
         }
         else if(to.equals("end")){
-            log.info("Scrolling to the end of the page");
+            log.info("Desplazamiento hasta el final de la página");
             jse.executeScript("scroll(0, 250);");
         }
     }
@@ -327,14 +328,14 @@ public class SeleniumFunctions {
     public void switchToFrame(String Frame) throws Exception {
 
         By SeleniumElement = SeleniumFunctions.getCompleteElement(Frame);
-        log.info("Switching to frame: " + Frame);
+        log.info("Cambiando al cuadro: " + Frame);
         driver.switchTo().frame(driver.findElement(SeleniumElement));
 
     }
 
     public void switchToParentFrame() {
 
-        log.info("Switching to parent frame");
+        log.info("Cambiar al marco principal");
         driver.switchTo().parentFrame();
 
     }
@@ -351,7 +352,7 @@ public class SeleniumFunctions {
     {
         By SeleniumElement = SeleniumFunctions.getCompleteElement(element);
         WebDriverWait w = new WebDriverWait(driver, EXPLICIT_TIMEOUT);
-        log.info("Waiting for the element: "+element + " to be present");
+        log.info("Esperando el elemento: "+element + " ser presente");
         w.until(ExpectedConditions.presenceOfElementLocated(SeleniumElement));
     }
 
@@ -359,7 +360,7 @@ public class SeleniumFunctions {
     {
         By SeleniumElement = SeleniumFunctions.getCompleteElement(element);
         WebDriverWait w = new WebDriverWait(driver, EXPLICIT_TIMEOUT);
-        log.info("Waiting for the element: "+element+ " to be visible");
+        log.info("Esperando el elemento: "+element+ " ser presente");
         w.until(ExpectedConditions.visibilityOfElementLocated(SeleniumElement));
     }
 
@@ -367,12 +368,24 @@ public class SeleniumFunctions {
 
         if (!this.ScenaryData.containsKey(key)) {
             this.ScenaryData.put(key,text);
-            log.info(String.format("Save as Scenario Context key: %s with value: %s ", key,text));
+            log.info(String.format("Guardar como clave de contexto de escenario: %s con valor: %s ", key,text));
         } else {
             this.ScenaryData.replace(key,text);
-            log.info(String.format("Update Scenario Context key: %s with value: %s ", key,text));
+            log.info(String.format("Actualizar clave de contexto de escenario: %s con valor: %s ", key,text));
         }
 
     }
 
+   public String email(){
+       return faker.internet().emailAddress();
+   }
+
+    public String nombre(){
+        return faker.name().firstName();
+    }
+
+    public String apellido(){
+
+        return faker.name().lastName().replaceAll("[^\\\\p{ASCII}]", "");
+    }
 }

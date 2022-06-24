@@ -17,6 +17,7 @@ public class StepDefinitions{
     WebDriver driver;
     SeleniumFunctions functions = new SeleniumFunctions();
 
+
     /******** Log Attribute ********/
     Logger log = Logger.getLogger(StepDefinitions.class);
 
@@ -61,14 +62,14 @@ public class StepDefinitions{
         log.info("inicializar archivo: " + file );
     }
 
-    @And("^I click in element (.*)")
+    @And("^Hago clic en el elemento (.*)")
     public void iClicInElement(String element) throws Exception {
 
         functions.iClicInElement(element);
 
     }
 
-    @And("^I double click on element having (.*)")
+    @And("^Hago doble clic en el elemento que tiene (.*)")
     public void doubleClick(String element) throws Exception
     {
         functions.doubleClick(element);
@@ -81,7 +82,28 @@ public class StepDefinitions{
 
     }
 
-    @And("^I set (.*?) with key value (.*?)$")
+    @And("^Configuro el elemento (.*) con un email aleatorio")
+    public void email(String element) throws Exception {
+
+        functions.iSetElementWithText(element, functions.email());
+
+    }
+
+    @And("^Configuro el elemento (.*) con un nombre aleatorio")
+    public void nombre(String element) throws Exception {
+
+        functions.iSetElementWithText(element, functions.nombre());
+
+    }
+
+    @And("^Configuro el elemento (.*) con un apellido aleatorio")
+    public void apellido(String element) throws Exception {
+
+        functions.iSetElementWithText(element, functions.apellido());
+
+    }
+
+    @And("^Lo puse (.*?) con valor clave (.*?)$")
     public void iSetElementWithKeyValue(String element, String text) throws Exception {
 
         functions.iSetElementWithKeyValue(element, text);
@@ -89,14 +111,14 @@ public class StepDefinitions{
     }
 
     /** Assert Text is present be present*/
-    @Then("^Assert if (.*?) contains text (.*?)$")
+    @Then("^Afirmar si (.*?) contiene texto (.*?)$")
     public void checkPartialTextElementPresent(String element,String text) throws Exception {
 
         functions.checkPartialTextElementPresent(element, text);
 
     }
 
-    @Then("^Check if (.*?) NOT contains text (.*?)$")
+    @Then("^Comprobar si (.*?) NO contiene texto (.*?)$")
     public void checkPartialTextElementNotPresent(String element,String text) throws Exception {
 
         functions.checkPartialTextElementNotPresent(element, text);
@@ -104,60 +126,60 @@ public class StepDefinitions{
     }
 
 
-    @And("^I take screenshot: (.*)")
+    @And("^Tomo captura de pantalla: (.*)")
     public void takeScreenshot(String TestCaptura) throws IOException
     {
         functions.ScreenShot(TestCaptura);
     }
 
 
-    @And("I attach a Screenshot to Report")
-    public void AttachAScreenshotToReport() {
+    @And("Adjunto una captura de pantalla para informar: (.*)")
+    public void AttachAScreenshotToReport(String TestCaptura) {
 
-        functions.attachScreenShot();
+        functions.attachScreenShot(TestCaptura);
 
     }
 
     /** Assert if element is present*/
-    @Then("^Assert if (.*?) is Displayed$")
+    @Then("^Comprobar si (.*?) se visualiza$")
     public void checkIfElementIsPresent(String element) throws Exception {
 
         boolean isDisplayed = functions.isElementDisplayed(element);
-        Assert.assertTrue("Element is not present: " + element, isDisplayed);
+        Assert.assertTrue("El elemento no está presente: " + element, isDisplayed);
 
     }
 
     /** Assert if element is present*/
-    @Then("^Check if (.*?) NOT is Displayed$")
+    @Then("^Comprobar si (.*?) NO se muestra$")
     public void checkIfElementIsNotPresent(String element) throws Exception {
 
         boolean isDisplayed = functions.isElementDisplayed(element);
-        Assert.assertFalse("Element is present: " + element, isDisplayed);
+        Assert.assertFalse("El elemento está presente: " + element, isDisplayed);
     }
 
     /** Handle and accept a JavaScript alert */
-    @Then("^I accept alert$")
+    @Then("^Acepto alerta$")
     public void AcceptAlert()
     {
         functions.AcceptAlert();
     }
 
     /** Handle and dismiss a JavaScript alert */
-    @Then("^I dismiss alert$")
+    @Then("^Descarto alerta$")
     public void dismissAlert()
     {
         functions.dismissAlert();
     }
 
     /** Handle dropdown element by visible text */
-    @And("I set text (.*?) in dropdown (.*?)$")
+    @And("Puse texto (.*?) en desplegable (.*?)$")
     public void iSetTextInDropdown(String option, String element) throws Exception {
 
         functions.selectOptionDropdownByText(element, option);
     }
 
     /** Handle dropdown element by index */
-    @And("I set index (.*?) in dropdown (.*?)$")
+    @And("Puse el índice (.*?) en desplegable (.*?)$")
     public void selectOptionDropdownByIndex(int option, String element) throws Exception {
 
         functions.selectOptionDropdownByIndex(element, option);
@@ -165,7 +187,7 @@ public class StepDefinitions{
     }
 
     /** Handle dropdown element by index */
-    @And("I set value (.*?) in dropdown (.*?)$")
+    @And("Pongo valor (.*?) en desplegable (.*?)$")
     public void selectOptionDropdownByValue(String option, String element) throws Exception {
 
         functions.selectOptionDropdownByValue(element, option);
@@ -173,39 +195,39 @@ public class StepDefinitions{
     }
 
     /** Check an option from a checkbox */
-    @When("^I check the checkbox having (.*?)$")
+    @When("^Marque la casilla de verificación que tiene (.*?)$")
     public void checkCheckbox(String element) throws Exception
     {
         functions.checkCheckbox(element);
     }
 
     /** Check an option from a checkbox */
-    @When("^I Uncheck the checkbox having (.*?)$")
+    @When("^Desmarco la casilla de verificación que tiene (.*?)$")
     public void UncheckCheckbox(String element) throws Exception
     {
         functions.UncheckCheckbox(element);
     }
 
     /** Refresh current page */
-    @And("^I refresh page$")
+    @And("Actualizo la pagina$")
     public void refreshPage()
     {
-        log.info("Reflesh current page");
+        log.info("Actualizar página actual");
         driver.navigate().refresh();
     }
 
     /** Switch to a new windows */
-    @When("^I switch to new window$")
+    @When("^Cambio a nueva ventana$")
     public void switchNewWindow()
     {
         for(String winHandle : driver.getWindowHandles()){
-            log.info("Switching to new windows");
+            log.info("Cambiar a nuevas ventanas");
             driver.switchTo().window(winHandle);
         }
     }
 
     /** Switch to the previous windows */
-    @When("^I switch to previous window$")
+    @When("^$Cambio a la ventana anterior")
     public void switchPreviousWindows()
     {
         log.info("Switching of previous windows");
@@ -214,78 +236,78 @@ public class StepDefinitions{
     }
 
     /** I switch to Frame */
-    @When("^I switch to Frame: (.*?)$")
+    @When("^Me cambio a Marco: (.*?)$")
     public void switchToFrame(String Frame) throws Exception {
         functions.switchToFrame(Frame);
 
     }
 
     /** Switch to a new windows by windows title */
-    @When("^I switch to window having title \"(.*?)\"$")
+    @When("^Cambio a la ventana que tiene título \"(.*?)\"$")
     public void switchToNewWindowsByTitle(String windowTitle) throws Exception
     {
-        log.info("Switching to the windows by title: " + windowTitle);
+        log.info("Cambiar a las ventanas por título: " + windowTitle);
         driver.switchTo().window(windowTitle);
     }
 
     /** Close a windows by title */
-    @And("^I close window \"(.*?)\"$")
+    @And("^Cierro ventana\"(.*?)\"$")
     public void closeNewWindows(String windowTitle)
     {
-        log.info("Switching to the windows by title: " + windowTitle);
+        log.info("Cambiar a las ventanas por título: " + windowTitle);
         driver.switchTo().window(windowTitle);
-        log.info("Closing windows: "+ windowTitle);
+        log.info("Cerrar ventanas: "+ windowTitle);
         driver.close();
     }
 
     /** Zoom out until the element is displayed  */
-    @And("^I zoom out page till I see element \"(.*?)\"$")
+    @And("^Alejo la página hasta que veo el elemento \"(.*?)\"$")
     public void zoomTillElementDisplay(String element) throws Exception
     {
         functions.zoomTillElementDisplay(element);
     }
 
     /** Scroll to the (top/end) of the page. */
-    @And("^I scroll to (top|end) of page$")
+    @And("^Me desplazo a (parte superior|extremo) de la página$")
     public void scrollPage(String to) throws Exception
     {
         functions.scrollPage(to);
     }
 
     /** Scroll to an element. */
-    @And("^I scroll to element (.+)$")
+    @And("^Me desplazo al elemento (.+)$")
     public void scrollToElement(String element) throws Exception
     {
         functions.scrollToElement(element);
     }
 
 
-    @And("I switch to parent frame")
+    @And("Cambio al marco principal")
     public void iSwitchToParentFrame() {
 
         functions.switchToParentFrame();
     }
 
     /** I click in JS element. */
-    @And("^I click in JS element (.+)$")
+    @And("^Hago clic en el elemento JS (.+)$")
     public void ClickJSElement(String element) throws Exception
     {
         functions.ClickJSElement(element);
     }
 
     /** Navigate forward */
-    @And("^I navigate forward")
+    @And("^Navego hacia adelante")
     public void navigateForward()
     {
-        log.info("Navigate forward");
+        log.info("Navego hacia adelante");
         driver.navigate().forward();
     }
 
     /** Navigate backward */
-    @And("^I navigate back")
+    @And("^Navego hacia atrás")
     public void navigateBack()
     {
-        log.info("Navigate backward");
+        log.info("Navego hacia atrás");
         driver.navigate().back();
     }
 
@@ -294,7 +316,7 @@ public class StepDefinitions{
     @And("^Cierro el navegador$")
     public void close()
     {
-        log.info("Closing browsers");
+        log.info("Cerrar navegadores");
         driver.close();
     }
 
@@ -307,21 +329,21 @@ public class StepDefinitions{
     }
 
     /** Wait for an element to be visible for a specific period of time */
-    @Then("^I wait element (.*?) to be visible$")
+    @Then("^Espero que el elemento (.*?) sea visible$")
     public void waitForElementVisible(String element) throws Exception
     {
         functions.waitForElementVisible(element);
     }
 
 
-    @Then("^Save as Scenario Context key (.*?) with value (.*?)$")
+    @Then("^Guardar como clave de contexto de escenario (.*?) con valor (.*?)$")
     public void SaveInScenarioData(String key,String text) throws NoSuchFieldException {
 
         functions.SaveInScenario(key, text);
 
     }
 
-    @And("^I Save text of (.*?) as Scenario Context$")
+    @And("^Guardo el texto de (.*?) como contexto de escenario$")
     public void iSaveTextOfElementAsScenarioContext(String element) throws Exception {
 
         String ScenarioElementText = functions.GetTextElement(element);
@@ -329,7 +351,7 @@ public class StepDefinitions{
 
     }
 
-    @And("^tiempo espera: (.*)")
+    @And("^Tiempo espera: (.*)")
     public void time(int t) throws IOException, InterruptedException {
         functions.tSleep(t);
     }

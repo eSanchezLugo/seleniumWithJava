@@ -1,5 +1,6 @@
 package Functions;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -32,36 +33,47 @@ public class WebDriverFactory {
 	 public static WebDriver createNewWebDriver(String browser, String os){
 		 WebDriver driver;
 
-		 /******** The driver selected is Local: Firefox  ********/    	
+		 /******** The driver selected is Local: Firefox  ********/
 		 if ("FIREFOX".equalsIgnoreCase(browser)) {
 			 if("WINDOWS".equalsIgnoreCase(os)){
-				 System.setProperty("webdriver.gecko.driver", resourceFolder+os+"/geckodriver.exe");    
+				 //System.setProperty("webdriver.gecko.driver", resourceFolder+os+"/geckodriver.exe");
+				 WebDriverManager.firefoxdriver().setup();
 			 }
 			 else{
-				 System.setProperty("webdriver.gecko.driver", resourceFolder+os+"/geckodriver");    
+				 System.setProperty("webdriver.gecko.driver", resourceFolder+os+"/geckodriver");
 			 }
 		     driver = new FirefoxDriver();
 		 }
-					        
+
 		 /******** The driver selected is Chrome  ********/
-					   
+
 	     else if ("CHROME".equalsIgnoreCase(browser)) {
 	    	 if("WINDOWS".equalsIgnoreCase(os)){
-	    		 System.setProperty("webdriver.chrome.driver", resourceFolder+os+"/chromedriver.exe");            
+	    		 //System.setProperty("webdriver.chrome.driver", resourceFolder+os+"/chromedriver.exe");
+				 WebDriverManager.chromedriver().setup();
 	    	 }
 	    	 else{
-	    		 System.setProperty("webdriver.chrome.driver", resourceFolder+os+"/chromedriver");        		 
+	    		 System.setProperty("webdriver.chrome.driver", resourceFolder+os+"/chromedriver");
 	    	 }
 	         driver = new ChromeDriver();
 
-	     }  
-					        
-		 /******** The driver selected is Internet Explorer ********/        
-	     else if ("INTERNET EXPLORER".equalsIgnoreCase(browser)) {
-	    	 System.setProperty("webdriver.ie.driver", resourceFolder+os+"/IEDriverServer.exe");
-			 driver = new InternetExplorerDriver();
+	     }
 
-	     } 
+		 /******** The driver selected is Opera  ********/
+
+		 else if ("OPERA".equalsIgnoreCase(browser)) {
+			 if("WINDOWS".equalsIgnoreCase(os)){
+				 //System.setProperty("webdriver.operadriver.driver", resourceFolder+os+"/operadriver.exe");
+				 WebDriverManager.operadriver().setup();
+			 }
+			 else{
+				 System.setProperty("webdriver.operadriver.driver", resourceFolder+os+"/operadriver");
+			 }
+			 driver = new ChromeDriver();
+
+		 }
+
+
 		 /******** The driver is not selected  ********/
 	     else {
 	    	 log.error("The Driver is not selected properly, invalid name: " + browser + ", " + os);

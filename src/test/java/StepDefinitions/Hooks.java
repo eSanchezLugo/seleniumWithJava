@@ -48,8 +48,8 @@ public class Hooks {
 
 	        if(scenario.isFailed()) {
 		        try {
-		        	scenario.write("The scenario failed.");
-		        	scenario.write("Current Page URL is " + driver.getCurrentUrl());
+		        	scenario.write("El escenario falló.");
+		        	scenario.write("La URL de la página actual es " + driver.getCurrentUrl());
 		            byte[] screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES);
 		            scenario.embed(screenshot, "src/test/resources/Data/Screenshots/Failed");
 					//functions.ScreenShot(scenario.getName());

@@ -3,19 +3,20 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cucumber</groupId>
-    <artifactId>Selenium.Cucumber.BaseFramework</artifactId>
+    <artifactId>seleniumWithJava</artifactId>
     <version>0.0.1</version>
     <packaging>jar</packaging>
-    <name>Selenium.Cucumber.BaseFramework</name>
+    <name>seleniumWithJava</name>
 
 
     <properties>
         <selenium.version>3.11.0</selenium.version>
         <aspectj.version>1.8.10</aspectj.version>
-        <java.version>1.8</java.version>
         <junit.version>4.12</junit.version>
         <cucumber.version>4.3.1</cucumber.version>
+        <java.version>1.8</java.version>
         <maven.compiler.version>3.3</maven.compiler.version>
+        <wdm.version>5.2.0</wdm.version>
     </properties>
 
     <dependencies>
@@ -92,6 +93,22 @@
             <version>${selenium.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>${wdm.version}</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/com.github.javafaker/javafaker -->
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
+
         <!-- https://mvnrepository.com/artifact/info.cukes/cucumber-picocontainer -->
         <dependency>
             <groupId>info.cukes</groupId>
@@ -100,17 +117,10 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.javafaker</groupId>
-            <artifactId>javafaker</artifactId>
-            <version>1.0.2</version>
-        </dependency>
-
     </dependencies>
 
     <build>
         <plugins>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -138,6 +148,9 @@
                     <propertiesFilePath>src/test/resources/allure.properties/allure.properties</propertiesFilePath>
                     <reportDirectory>${project.build.directory}/allure-report</reportDirectory>
                     <reportVersion>2.7.0</reportVersion>
+                    <allureDownloadUrl>
+                        https://github.com/allure-framework/allure2/releases/download/2.7.0/allure-2.7.0.zip
+                    </allureDownloadUrl>
                 </configuration>
             </plugin>
             <plugin>
