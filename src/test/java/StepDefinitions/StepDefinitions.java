@@ -6,9 +6,12 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import cucumber.api.java.sl.In;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.InterfaceImplementation;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -42,6 +45,7 @@ public class StepDefinitions{
         driver.get(url);
     }
 
+
     @Given("^Navego a (.*)")
     public void navigateTo(String url){
 
@@ -55,6 +59,12 @@ public class StepDefinitions{
         driver.manage().window().maximize();
     }
 
+
+    @Then("^Dimension de la ventana (.*) (.*)")
+    public void iDimensionTheWindows(Integer width, Integer height) {
+        driver.manage().window().setSize(new Dimension(width, height));
+    }
+;
     @Then("^Cargo la información del DOM (.*)")
     public void iLoadTheDOMInformation(String file) throws Exception {
         SeleniumFunctions.FileName= file.concat(".json");
@@ -83,7 +93,7 @@ public class StepDefinitions{
     }
 
     @And("^Configuro el elemento (.*) con un email aleatorio")
-    public void email(String element) throws Exception {
+    public void randomFaker(String element) throws Exception {
 
         functions.iSetElementWithText(element, functions.email());
 

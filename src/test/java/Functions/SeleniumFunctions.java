@@ -48,6 +48,7 @@ public class SeleniumFunctions {
         return prop.getProperty(property);
     }
 
+
     /******** Log Attribute ********/
     private static Logger log = Logger.getLogger(SeleniumFunctions.class);
     public static String FileName = "";
@@ -66,6 +67,7 @@ public class SeleniumFunctions {
             } else {
                 return null;
             }
+
         } catch (FileNotFoundException e) {
             log.error("ReadEntity: No existe el archivo " + FileName);
             return null;
@@ -85,8 +87,8 @@ public class SeleniumFunctions {
         Entity = (JSONObject) jsonObject.get(element);
         log.info(Entity.toJSONString());
         return Entity;
-
     }
+
 
     public void ScreenShot(String TestCaptura) throws IOException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-HHmm");
@@ -384,8 +386,5 @@ public class SeleniumFunctions {
         return faker.name().firstName();
     }
 
-    public String apellido(){
-
-        return faker.name().lastName().replaceAll("[^\\\\p{ASCII}]", "");
-    }
+    public String apellido(){return faker.name().lastName();}
 }

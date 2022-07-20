@@ -31,7 +31,7 @@ public class Hooks {
 	     */
 	    public void initDriver() throws MalformedURLException {
 			log.info("***********************************************************************************************************");
-			log.info("[ Configuration ] - Initializing driver configuration");
+			log.info("[Configuración] - Inicializando la configuración del controlador");
 			log.info("***********************************************************************************************************");
 	    	driver = CreateDriver.initConfig();
 	    	
@@ -52,14 +52,13 @@ public class Hooks {
 		        	scenario.write("La URL de la página actual es " + driver.getCurrentUrl());
 		            byte[] screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES);
 		            scenario.embed(screenshot, "src/test/resources/Data/Screenshots/Failed");
-					//functions.ScreenShot(scenario.getName());
 		        } catch (WebDriverException somePlatformsDontSupportScreenshots) {
 		            System.err.println(somePlatformsDontSupportScreenshots.getMessage());
 		        }
 	        }
 	        
 			log.info("***********************************************************************************************************");
-			log.info("[ Driver Status ] - Clean and close the intance of the driver");
+			log.info("[Estado del controlador]: limpia y cierra la instancia del controlador");
 			log.info("***********************************************************************************************************");
 	        driver.quit();
 	        

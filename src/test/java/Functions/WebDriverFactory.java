@@ -36,7 +36,6 @@ public class WebDriverFactory {
 		 /******** The driver selected is Local: Firefox  ********/
 		 if ("FIREFOX".equalsIgnoreCase(browser)) {
 			 if("WINDOWS".equalsIgnoreCase(os)){
-				 //System.setProperty("webdriver.gecko.driver", resourceFolder+os+"/geckodriver.exe");
 				 WebDriverManager.firefoxdriver().setup();
 			 }
 			 else{
@@ -49,7 +48,6 @@ public class WebDriverFactory {
 
 	     else if ("CHROME".equalsIgnoreCase(browser)) {
 	    	 if("WINDOWS".equalsIgnoreCase(os)){
-	    		 //System.setProperty("webdriver.chrome.driver", resourceFolder+os+"/chromedriver.exe");
 				 WebDriverManager.chromedriver().setup();
 	    	 }
 	    	 else{
@@ -63,7 +61,6 @@ public class WebDriverFactory {
 
 		 else if ("OPERA".equalsIgnoreCase(browser)) {
 			 if("WINDOWS".equalsIgnoreCase(os)){
-				 //System.setProperty("webdriver.operadriver.driver", resourceFolder+os+"/operadriver.exe");
 				 WebDriverManager.operadriver().setup();
 			 }
 			 else{
@@ -79,7 +76,7 @@ public class WebDriverFactory {
 	    	 log.error("The Driver is not selected properly, invalid name: " + browser + ", " + os);
 			 return null;
 		 }
-		 driver.manage().window().maximize();
+		 //driver.manage().window().maximize();
 	     return driver;
 
         }
